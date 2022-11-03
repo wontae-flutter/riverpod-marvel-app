@@ -5,19 +5,21 @@ import 'package:dio/dio.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:marvel_app/providers/provider_configuration.dart';
-import "../models/model_configuration/configuration.dart";
 import "../models/model_marvel/marvel.dart";
+import '../models/model_character/character.dart';
 
 //? 성능개선을 위함
 final dioProvider = Provider((ref) => Dio());
+//* Future같은 것들이 있으니까... 그냥 stateNotifierProvider로 쓰면 안될거같은거야
+final characterRepositoryProvider = Provider(CharacterRepository.new);
 
 //! repository에서 _getCurrentTimeStamp 함수 없앴음!! 필요없는거같아서
-class MarvelRepository {
+class CharacterRepository {
   final Ref ref;
   // final int Function() _getCurrentTimeStamp;
   final _characterCacheMap = <String, Character>{};
 
-  MarvelRepository(
+  CharacterRepository(
     this.ref,
   );
 

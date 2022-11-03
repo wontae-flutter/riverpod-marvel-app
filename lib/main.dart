@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import "package:flutter_hooks/flutter_hooks.dart";
 import "package:flutter_portal/flutter_portal.dart";
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:marvel_app/providers/provider_character.dart';
 
 import "./screens/screen_home.dart";
 import "./screens/screen_character_detail.dart";
@@ -26,6 +26,34 @@ class MyApp extends HookConsumerWidget {
       //* Floating Overlay
       home: const Portal(child: Home()),
       //* 꼭 이렇게 해야되냐
+      //! 여기가 하나도 안되어있네...
+      onGenerateRoute: (settings) {
+        if (settings.name == null) {
+          return null;
+        }
+        final split = settings.name!.split('/');
+        //*  /characters/ 뒤에 뭐가 오는지가 중요함
+        Widget? result;
+
+        if (result == null) {
+          return null;
+        }
+
+        if (settings.name!.startsWith("/characters/") && split.length == 3) {
+          result = ProviderScope(
+            overrides: [
+              selectedCharacterIdProvider.overrideWithValue(split.last)
+            ],
+            child: const CharacterView(),
+          );
+        }
+
+        return MaterialPageRoute(builder: (context) => result!);
+      },
+      routes: {
+        "/character": (context) => const CharacterView(),
+        //! 여기에 "/characters/id" 가 설정이 안되어있어서 그래, 요걸 주면 해결이 된다
+      },
     );
   }
 }

@@ -2,6 +2,8 @@ library marvel;
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../model_character/character.dart';
+
 part 'marvel.freezed.dart';
 part 'marvel.g.dart';
 
@@ -11,33 +13,6 @@ class MarvelListCharactersResponse with _$MarvelListCharactersResponse {
     required int totalCount,
     required List<Character> characters,
   }) = _MarvelListCharactersResponse;
-}
-
-@freezed
-class Character with _$Character {
-  factory Character({
-    required int id,
-    required String name,
-    required Thumbnail thumbnail,
-  }) = _Character;
-
-  factory Character.fromJson(Map<String, Object?> json) =>
-      _$CharacterFromJson(json);
-}
-
-@freezed
-class Thumbnail with _$Thumbnail {
-  factory Thumbnail({
-    required String path,
-    required String extension,
-  }) = _Thumbnail;
-  Thumbnail._();
-
-  factory Thumbnail.fromJson(Map<String, Object?> json) =>
-      _$ThumbnailFromJson(json);
-
-  late final String url =
-      '${path.replaceFirst('http://', 'https://')}.$extension';
 }
 
 @freezed
@@ -58,3 +33,5 @@ class MarvelData with _$MarvelData {
   factory MarvelData.fromJson(Map<String, Object?> json) =>
       _$MarvelDataFromJson(json);
 }
+
+// offset을 여기에다 더해야되는거 아닌가?
